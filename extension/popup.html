@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SmartMeet AI</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 320px; font-family: 'Segoe UI', sans-serif; background: #0f0f14; color: #e0e0f0; }
+  .header { background: #1a1a2e; padding: 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #2a2a40; }
+  .logo { width: 32px; height: 32px; background: linear-gradient(135deg, #7c6fff, #a78bfa); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .logo-text h1 { font-size: 14px; font-weight: 600; }
+  .logo-text p { font-size: 11px; color: #6060a0; }
+  .status-bar { padding: 12px 16px; background: #111120; border-bottom: 1px solid #2a2a40; display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #404060; }
+  .status-dot.active { background: #4ade80; box-shadow: 0 0 6px #4ade8088; }
+  .status-dot.recording { background: #fb7185; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+  .section { padding: 14px 16px; border-bottom: 1px solid #1e1e30; }
+  .section-label { font-size: 10px; color: #404060; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .stat { background: #1a1a2e; border-radius: 8px; padding: 10px; text-align: center; }
+  .stat-num { font-size: 20px; font-weight: 700; color: #a78bfa; }
+  .stat-label { font-size: 10px; color: #6060a0; margin-top: 2px; }
+  .btn { width: 100%; padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-size: 13px; font-weight: 500; transition: opacity .15s; }
+  .btn:hover { opacity: .85; }
+  .btn-primary { background: linear-gradient(135deg, #7c6fff, #a78bfa); color: white; }
+  .btn-secondary { background: #1e1e30; color: #a0a0c0; margin-top: 8px; }
+  .btn-danger { background: #3a1520; color: #fb7185; margin-top: 8px; }
+  .login-form { display: flex; flex-direction: column; gap: 8px; }
+  .input { background: #1a1a2e; border: 1px solid #2a2a40; border-radius: 8px; padding: 9px 12px; color: #e0e0f0; font-size: 13px; outline: none; }
+  .input:focus { border-color: #7c6fff; }
+  #logged-in-view, #recording-info { display: none; }
+  .meeting-badge { background: #1a1a2e; border: 1px solid #2a2a40; border-radius: 8px; padding: 10px 12px; font-size: 12px; color: #a0a0c0; }
+  .meeting-badge strong { color: #e0e0f0; display: block; margin-bottom: 2px; }
+  .footer { padding: 10px 16px; text-align: center; font-size: 10px; color: #30305a; }
+  .footer a { color: #7c6fff; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">⬡</div>
+  <div class="logo-text">
+    <h1>SmartMeet AI</h1>
+    <p>Intelligent Meeting Assistant</p>
+  </div>
+</div>
+
+<!-- Login View -->
+<div id="login-view">
+  <div class="section">
+    <div class="section-label">Sign in to continue</div>
+    <div class="login-form">
+      <input class="input" id="email" type="email" placeholder="Email address">
+      <input class="input" id="password" type="password" placeholder="Password">
+      <button class="btn btn-primary" onclick="login()">Sign In</button>
+    </div>
+    <div id="login-error" style="font-size:11px;color:#fb7185;margin-top:8px;display:none"></div>
+  </div>
+</div>
+
+<!-- Logged In View -->
+<div id="logged-in-view">
+  <div class="status-bar">
+    <div class="status-dot" id="status-dot"></div>
+    <span id="status-text">No meeting detected</span>
+  </div>
+
+  <div class="section" id="recording-info">
+    <div class="section-label">Active meeting</div>
+    <div class="meeting-badge">
+      <strong id="meeting-title">Untitled Meeting</strong>
+      <span id="meeting-platform">—</span> · <span id="meeting-duration">0m</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Your meetings</div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Total</div></div>
+      <div class="stat"><div class="stat-num" id="stat-hours">0</div><div class="stat-label">Hours</div></div>
+      <div class="stat"><div class="stat-num" id="stat-tasks">0</div><div class="stat-label">Tasks</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <button class="btn btn-primary" onclick="openDashboard()">Open Dashboard ↗</button>
+    <button class="btn btn-secondary" onclick="logout()">Sign Out</button>
+  </div>
+</div>
+
+<div class="footer">SmartMeet AI · <a href="https://your-dashboard.vercel.app" target="_blank">Dashboard</a></div>
+
+<script src="src/popup.js"></script>
+</body>
+</html>
